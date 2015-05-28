@@ -8,11 +8,11 @@ import android.database.Cursor;
 import android.net.Uri;
 
 
-public class CDLBroadcast extends BroadcastReceiver {
+public class DownloadReceiver extends BroadcastReceiver {
 	private DownloadManager downloadManager;
-	public static CDLBroadcast instance;
-	private static final String tag = CDLBroadcast.class.getName();
-	public CDLBroadcast(Context context){
+	public static DownloadReceiver instance;
+	private static final String tag = DownloadReceiver.class.getName();
+	public DownloadReceiver(Context context){
 		if(downloadManager == null){
 			downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
 		}
@@ -32,7 +32,7 @@ public class CDLBroadcast extends BroadcastReceiver {
 				install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				context.startActivity(install);
 				String appname = uriString.substring(uriString.lastIndexOf("/")+1);
-				new CDLRThread(context,appname).start();
+				new Report(context,appname).start();
 			}
 		}
 	}

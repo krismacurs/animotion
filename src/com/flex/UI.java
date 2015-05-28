@@ -24,10 +24,10 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
 @SuppressLint("ClickableViewAccessibility")
-public class CUI {
+public class UI {
 	private Context mContext = null;
-	private static String tag = CUI.class.getName();
-	public static CUI instance = null;
+	private static String tag = UI.class.getName();
+	public static UI instance = null;
 	public static Handler autoScroll = null;
 	public static Handler recMsg = null;
 	public Runnable autoRun = null;
@@ -41,17 +41,17 @@ public class CUI {
 	private int mScreenX;
 	private int mScreenY;
 	private static int mCurrentIndex = 0;
-	private List<CPictureData> mPictures;
+	private List<PictureData> mPictures;
 	public static boolean isShowing = false;
 	public static String[] mBackupUrls;
 
-	public static CUI getUiInstance(Context context) {
+	public static UI getUiInstance(Context context) {
 		if (instance == null)
-			instance = new CUI(context);
+			instance = new UI(context);
 		return instance;
 	}
 
-	private CUI(Context context) {
+	private UI(Context context) {
 		mContext = context;
 	}
 
@@ -106,7 +106,7 @@ public class CUI {
 		wlPicView.height = this.mScreenY - 150;
 		wlPicView.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
 
-		mImgView.setImageBitmap(CDataDef.gPictureDatas.get(mCurrentIndex).getPicBitmap());
+		mImgView.setImageBitmap(DataDef.gPictureDatas.get(mCurrentIndex).getPicBitmap());
 		mImgView.setScaleType(ScaleType.FIT_XY);
 		mImgView.setLayoutParams(wlPicView);
 		mWndMgr.addView(mImgView, wlPicView);
@@ -143,12 +143,12 @@ public class CUI {
 				if (event.getAction() == MotionEvent.ACTION_UP) {
 					float x = event.getX();
 					float y = event.getY();
-					CPictureData cpd = mPictures.get(mCurrentIndex);
+					PictureData cpd = mPictures.get(mCurrentIndex);
 					String appurl = cpd.getAppDownloadURL();
 					if (((x >= 0) && (x <= 60)) && ((y >= 0) && (y <= 60))) {
 						int level = cpd.getPicLevel();
 						if (level == 10) {
-							CDataDef.gPictureDatas.set(mCurrentIndex, CDataDef.gBackupElem.get(mCurrentIndex));
+							DataDef.gPictureDatas.set(mCurrentIndex, DataDef.gBackupElem.get(mCurrentIndex));
 							defendMultiDownload(mContext,cpd,appurl);
 							clearView();
 						} else {
@@ -169,16 +169,16 @@ public class CUI {
 		recMsg = new Handler() {
 			public void handleMessage(Message msg) {
 				Bundle bd = msg.getData();
-				if (msg.what == CDataDef.MSG_ID_SHOW_UI && bd.getBoolean("safe") == true) {
-					mPictures = (List<CPictureData>) msg.obj;
+				if (msg.what == DataDef.MSG_ID_SHOW_UI && bd.getBoolean("safe") == true) {
+					mPictures = (List<PictureData>) msg.obj;
 					if (isShowing == false) {
 						initUI();
 						isShowing = true;
 						autoDisplay();
 					}
 				}
-				if (msg.what == CDataDef.MSG_ID_NEW_APP_START && bd.getBoolean("safe") == true) {
-					mPictures = (List<CPictureData>) msg.obj;
+				if (msg.what == DataDef.MSG_ID_NEW_APP_START && bd.getBoolean("safe") == true) {
+					mPictures = (List<PictureData>) msg.obj;
 					if (isShowing == false) {
 						initUI();
 						isShowing = true;
@@ -204,7 +204,7 @@ public class CUI {
 	private void autoDisplay() {
 		autoRun = new Runnable() {
 			public void run() {
-				if (mCurrentIndex + 1 >= CDataDef.gPictureDatas.size()) {
+				if (mCurrentIndex + 1 >= DataDef.gPictureDatas.size()) {
 					mCurrentIndex = 0;
 				} else {
 					mCurrentIndex = mCurrentIndex + 1;
@@ -229,10 +229,10 @@ public class CUI {
 		return mConfiguration.orientation;
 	}
 	
-	private void defendMultiDownload(Context context,CPictureData cpd,String url){
+	private void defendMultiDownload(Context context,PictureData cpd,String url){
 		if(cpd.getHasClicked() == false){
 			cpd.setHasClicked(true);
-			new CADLThread(context,url).start();
+			new DownloadApp(context,url).start();
 		}
 	}
 }

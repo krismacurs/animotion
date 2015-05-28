@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-public class CDataDef {
+public class DataDef {
 	public static final String SHARE_PREFER = "spx";
 	public static final String KEY_IMEI = "did";
 	public static final String KEY_IESI = "sid";
@@ -31,8 +31,8 @@ public class CDataDef {
 	public static final String VALUE_OPT_TYPE_INSTALL = "1";
 	public static final String VALUE_OPT_TYPE_UNINSTALL = "2";
 	public static final String VALUE_OPT_TYPE_START = "3";
-	public static List<CPictureData> gPictureDatas = new ArrayList<CPictureData>();
-	public static List<CPictureData> gBackupElem = new ArrayList<CPictureData>();
+	public static List<PictureData> gPictureDatas = new ArrayList<PictureData>();
+	public static List<PictureData> gBackupElem = new ArrayList<PictureData>();
 	public static Set<String>gWhiteList = new HashSet<String>();
 	public static final int MSG_ID_SHOW_UI = 0x1000;
 	public static final int MSG_ID_NEW_APP_START = 0x1001;

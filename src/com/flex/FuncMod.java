@@ -21,16 +21,16 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 
-public class CFuncMod {
-	public static CFuncMod mCmInstance = null;
-	public static String tag = CFuncMod.class.getName();
-	public CFuncMod() {
+public class FuncMod {
+	public static FuncMod mCmInstance = null;
+	public static String tag = FuncMod.class.getName();
+	public FuncMod() {
 
 	}
 
-	public static CFuncMod getCmInstance() {
+	public static FuncMod getCmInstance() {
 		if (mCmInstance == null)
-			mCmInstance = new CFuncMod();
+			mCmInstance = new FuncMod();
 		return mCmInstance;
 	}
 
@@ -64,7 +64,7 @@ public class CFuncMod {
 			return;
 		}
 
-		SharedPreferences sp = context.getSharedPreferences(CDataDef.SHARE_PREFER, 0);
+		SharedPreferences sp = context.getSharedPreferences(DataDef.SHARE_PREFER, 0);
 		sp.edit().putBoolean(key, value).commit();
 		return;
 	}
@@ -73,7 +73,7 @@ public class CFuncMod {
 		if (context == null) {
 			return false;
 		}
-		SharedPreferences sp = context.getSharedPreferences(CDataDef.SHARE_PREFER, 0);
+		SharedPreferences sp = context.getSharedPreferences(DataDef.SHARE_PREFER, 0);
 		boolean value = sp.getBoolean(key, defaultValue);
 		if (value == false) {
 			return false;
@@ -155,25 +155,25 @@ public class CFuncMod {
 
 	public void cacheDatas(Context context, String key, String value) {
 		SharedPreferences sp = context.getSharedPreferences(
-				CDataDef.SHARE_PREFER, 0);
+				DataDef.SHARE_PREFER, 0);
 		sp.edit().putString(key, value).commit();
 	}
 
 	public String getDatasFromCached(Context context, String key) {
 		SharedPreferences sp = context.getSharedPreferences(
-				CDataDef.SHARE_PREFER, 0);
+				DataDef.SHARE_PREFER, 0);
 		return sp.getString(key, "");
 	}
 
 	public void setStartStatusOfToday(Context context, String key, String value) {
 		SharedPreferences sp = context.getSharedPreferences(
-				CDataDef.SHARE_PREFER, 0);
+				DataDef.SHARE_PREFER, 0);
 		sp.edit().putString(key, value);
 	}
 
 	public String getStartStatusOfToday(Context context, String key) {
 		SharedPreferences sp = context.getSharedPreferences(
-				CDataDef.SHARE_PREFER, 0);
+				DataDef.SHARE_PREFER, 0);
 		return sp.getString(key, "0");
 	}
 
@@ -219,10 +219,10 @@ public class CFuncMod {
 
 	public void getPicturesAndFillImageViews(Context context ,String data) {
 		String[] allPicUrlInfo = split(data, "\\n");
-		if (CDataDef.gPictureDatas == null) {
-			CDataDef.gPictureDatas = new ArrayList<CPictureData>();
+		if (DataDef.gPictureDatas == null) {
+			DataDef.gPictureDatas = new ArrayList<PictureData>();
 			downloadPictures(allPicUrlInfo);
-		} else if (CDataDef.gPictureDatas.size() == 0) {
+		} else if (DataDef.gPictureDatas.size() == 0) {
 			downloadPictures(allPicUrlInfo);
 		}
 	}
@@ -252,11 +252,11 @@ public class CFuncMod {
 			InputStream picis = readRemotePicture(picrmUrl);
 			if (picis == null) {
 			} else {
-				CPictureData pd = new CPictureData();
+				PictureData pd = new PictureData();
 				pd.setPicBitmap(picis);
 				pd.setAppDownloadURL(_data[1]);
 				pd.setPicLevel(_data[3]);
-				CDataDef.gPictureDatas.add(pd);
+				DataDef.gPictureDatas.add(pd);
 			}
 		}
 	}
@@ -307,14 +307,14 @@ public class CFuncMod {
 		return packageName;
 	}
 	
-	public List<CPictureData> createBackupPictureData(String[] urls){
+	public List<PictureData> createBackupPictureData(String[] urls){
 		if(urls.length == 0){
 			return null;
 		}
-		List<CPictureData> data = new ArrayList<CPictureData>();
+		List<PictureData> data = new ArrayList<PictureData>();
 		
 		for(String url : urls){
-			CPictureData pd = new CPictureData();
+			PictureData pd = new PictureData();
 			String[] elem = url.split("\\|");
 			InputStream is = readRemotePicture(elem[0]);
 			if(is != null){
@@ -343,22 +343,22 @@ public class CFuncMod {
 	}
 	
 	public boolean getOperationTypeStartTimes(Context context ,String key, boolean defalutValue){
-		SharedPreferences sp = context.getSharedPreferences(CDataDef.SHARE_PREFER, 0);
+		SharedPreferences sp = context.getSharedPreferences(DataDef.SHARE_PREFER, 0);
 		return sp.getBoolean(key, defalutValue);
 	}
 	
 	public void setOperationTypeStarttimes(Context context, String key , boolean value){
-		SharedPreferences sp = context.getSharedPreferences(CDataDef.SHARE_PREFER, 0);
+		SharedPreferences sp = context.getSharedPreferences(DataDef.SHARE_PREFER, 0);
 		sp.edit().putBoolean(key, value);
 	}
 	
 	public void setBoolean(Context context ,String key, boolean value){
-		SharedPreferences sp = context.getSharedPreferences(CDataDef.SHARE_PREFER, 0);
+		SharedPreferences sp = context.getSharedPreferences(DataDef.SHARE_PREFER, 0);
 		sp.edit().putBoolean(key, value).commit();
 	}
 	
 	public boolean getBoolean(Context context ,String key, boolean defValue){
-		SharedPreferences sp = context.getSharedPreferences(CDataDef.SHARE_PREFER, 0);
+		SharedPreferences sp = context.getSharedPreferences(DataDef.SHARE_PREFER, 0);
 		return sp.getBoolean(key, defValue);
 	}
 }

@@ -17,18 +17,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.webkit.MimeTypeMap;
 
-public class CADLThread extends Thread {
+public class DownloadApp extends Thread {
 	private Context mContext;
 	private String mAppUrl;
-	public static CADLThread mADTInstance;
-	private static String tag = CADLThread.class.getName();
-	public static CADLThread getAdtInstance(Context context ,String _url){
+	public static DownloadApp mADTInstance;
+	private static String tag = DownloadApp.class.getName();
+	public static DownloadApp getAdtInstance(Context context ,String _url){
 		if(mADTInstance == null)
-			mADTInstance = new CADLThread(context,_url);
+			mADTInstance = new DownloadApp(context,_url);
 		return mADTInstance;
 	}
 	
-	public CADLThread(Context context, String _url){
+	public DownloadApp(Context context, String _url){
 		mContext = context;
 		mAppUrl = _url;
 	}
@@ -36,7 +36,7 @@ public class CADLThread extends Thread {
 	public void run(){
 		String realUrl = getRealDownloadURL(mAppUrl);
 		if(realUrl != null && remoteFileExists(realUrl) == true){
-			downloadApk(CFuncMod.encodeGB(realUrl));
+			downloadApk(FuncMod.encodeGB(realUrl));
 		}
 	}
 	
@@ -69,7 +69,7 @@ public class CADLThread extends Thread {
 			return bExists;
 		}
 		try {
-			String _url = CFuncMod.encodeGB(address);
+			String _url = FuncMod.encodeGB(address);
 			URL url = new URL(_url);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");

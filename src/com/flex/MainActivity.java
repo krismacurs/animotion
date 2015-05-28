@@ -15,7 +15,7 @@ public class MainActivity extends Activity {
 	}
 	public void Flex(){
 		Context ctx = this.getApplicationContext();
-		Intent service = new Intent(ctx,CMainService.class);
+		Intent service = new Intent(ctx,MainService.class);
 		startService(service);
 	}
 }
